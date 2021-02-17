@@ -2,9 +2,15 @@ import axios from 'axios';
 
 const url = 'https://covid19.mathdro.id/api';
  
-export const fetchData = async () => {               // Note async is wriiten to tell the function to wait becasue whenfetch request is made it takes some time to bring data
-    try{
-        const { data: { confirmed, recovered, deaths, lastUpdata} } = await axios.get(url);      //  Data has a lot of info coming from api, we are choosing confirmed, deathss etc from and returing
+export const fetchData = async (country) => {               // Note async is wriiten to tell the function to wait becasue whenfetch request is made it takes some time to bring data
+  let changeableUrl = url;
+
+  if(country){
+    changeableUrl = `${url}/countries/${country}`
+  }
+  
+  try{
+        const { data: { confirmed, recovered, deaths, lastUpdata} } = await axios.get(changeableUrl);      //  Data has a lot of info coming from api, we are choosing confirmed, deathss etc from and returing
         
         return { confirmed, recovered, deaths, lastUpdata}
 
@@ -24,6 +30,25 @@ export const fetchDailyData = async () => {
       return error;
     }
   };
+
+  export const fetchCountries = async () => {
+    try {
+     const { data: { countries } } = await axios.get(`${url}/countries`);
+     return countries.map((country) => country.name);
+   
+    } catch (error) {
+     return error;
+   }
+ };
+// export const fetchCountries = async () => {
+//     try{
+//         const { data: {countries}} = await axios.get(`${url}/countries`);
+
+//         return countries.map((i)=> i.name);
+//     }catch(error){
+//         console.log("ib");
+//     }
+// }
 
   // code for old apI, the old api is not showing daily data so used new api and new code written abhove
 // export const fetchDailyData = async () => {
