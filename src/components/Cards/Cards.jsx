@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardContent, Typography, Grid} from '@material-ui/core';
 import styles from './Cards.module.css';
+import CountUp from 'react-countup';                        // for counter of number using this inbuilt component
+import cx from 'classnames';                            // use to apply mutltiple classes from cars.module.css
 
 const Cards = ({data : { confirmed, recovered, deaths, lastUpdate}}) => {
    
@@ -8,29 +10,36 @@ const Cards = ({data : { confirmed, recovered, deaths, lastUpdate}}) => {
     {
         return 'Loading...';                        // it says if confirmed i.e part of data is not there then show Loading
     }
+    
     return(
         <div className={styles.container}>
             <Grid container spacing={3} justify="center">               
-                <Grid item component={Card}>
+                <Grid item component={Card} xs={12} md={3} className={cx(styles.card,styles.infected)}>       {/* it is the syntax to use multiple classNames that we are using from module.css. xs is fro extrasmall md for mdeium & abhove devices*/}
                     <CardContent>
                         <Typography color="textSecondary" gutterBottom>Infected</Typography>
-                        <Typography varaiant="h5">{confirmed.value}</Typography>
+                        <Typography varaiant="h5">
+                            <CountUp start={0} end={confirmed.value} duration={2.5} seperator=","/>
+                        </Typography>
                         <Typography color="textSecondary">REAL DATE</Typography>
                         <Typography variant="body2">Number of active cases of covid-19</Typography>
                     </CardContent>
                 </Grid>
-                <Grid item component={Card}>
+                <Grid item component={Card} xs={12} md={3} className={cx(styles.card,styles.recovered)}>       {/* it is the syntax to use multiple classNames that we are using from module.css. xs is fro extrasmall md for mdeium & abhove devices*/}
                     <CardContent>
                         <Typography color="textSecondary" gutterBottom>Recovered</Typography>
-                        <Typography varaiant="h5">REAL DATA</Typography>
+                        <Typography varaiant="h5">
+                            <CountUp start={0} end={recovered.value} duration={2.5}></CountUp>
+                        </Typography>
                         <Typography color="textSecondary">REAL DATE</Typography>
                         <Typography variant="body2">Number of Recovered cases of covid-19</Typography>
                     </CardContent>
                 </Grid>
-                <Grid item component={Card}>
+                <Grid item component={Card} xs={12} md={3} className={cx(styles.card,styles.deaths)}>       {/* it is the syntax to use multiple classNames that we are using from module.css. xs is fro extrasmall md for mdeium & abhove devices*/}
                     <CardContent>
                         <Typography color="textSecondary" gutterBottom>Deaths</Typography>
-                        <Typography varaiant="h5">REAL DATA</Typography>
+                        <Typography varaiant="h5">
+                            <CountUp start={0} end={deaths.value} duration={2.5}></CountUp>
+                        </Typography>
                         <Typography color="textSecondary">REAL DATE</Typography>
                         <Typography variant="body2">Number of deaths caused by covid-19</Typography>
                     </CardContent>
